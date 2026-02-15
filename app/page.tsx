@@ -33,10 +33,15 @@ async function signInWithGoogle() {
   
   const supabase = await createClient()
   
+  // Dynamically get the correct URL
+  const redirectUrl = process.env.NEXT_PUBLIC_SITE_URL 
+    ? `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`
+    : 'http://localhost:3000/auth/callback'
+  
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: 'http://localhost:3000/auth/callback',
+      redirectTo: redirectUrl,
     },
   })
 
