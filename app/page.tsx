@@ -33,15 +33,15 @@ async function signInWithGoogle() {
   
   const supabase = await createClient()
   
-  // Dynamically get the correct URL
-  const redirectUrl = process.env.NEXT_PUBLIC_SITE_URL 
-    ? `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`
-    : 'http://localhost:3000/auth/callback'
+  // Use Vercel's automatic URL
+  const baseUrl = process.env.VERCEL_URL 
+    ? `https://${process.env.VERCEL_URL}`
+    : 'http://localhost:3000'
   
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: redirectUrl,
+      redirectTo: `${baseUrl}/auth/callback`,
     },
   })
 
